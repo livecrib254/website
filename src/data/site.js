@@ -196,11 +196,11 @@ export const testimonials = [
   {
     quote: 'LiveCrib rebuilt our platform end to end. Delivery was on time and the results spoke for themselves.',
     name: 'Operations Director',
-    org: 'EdTech client',
+    org: 'Simia kenya',
   },
   {
     quote: 'Their team felt like an extension of ours — transparent, creative, and genuinely invested in our growth.',
     name: 'Founder',
-    org: 'Retail brand',
+    org: 'Botanico Kenya',
   },
 ]
