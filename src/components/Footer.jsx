@@ -38,7 +38,6 @@ export default function Footer() {
 
       <div className="shell mt-11 flex flex-wrap items-center justify-between gap-2.5 border-t border-white/10 pt-5 text-sm text-[#737c9c]">
         <span>© {year} {brand.name}. All rights reserved.</span>
-        <span>Built with Vite · React · Tailwind CSS</span>
       </div>
     </footer>
   )

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Reveal from '../components/Reveal.jsx'
+import Lightbox from '../components/Lightbox.jsx'
 import { CtaBand } from './Home.jsx'
 import { products } from '../data/site.js'
 
@@ -56,11 +57,12 @@ export default function Products() {
 
 function Screenshots({ product: p }) {
   const [active, setActive] = useState(0)
+  const [zoom, setZoom] = useState(null) // index open in lightbox, or null
   const shots = p.shots || []
 
   return (
     <div>
-      {/* Browser frame */}
+      {/* Browser frame — click to enlarge */}
       <div className="overflow-hidden rounded-xl2 border border-line bg-white shadow-hi">
         <div className="flex items-center gap-1.5 border-b border-line bg-sunken px-4 py-3">
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
@@ -68,18 +70,28 @@ function Screenshots({ product: p }) {
           <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
           <em className="ml-3 truncate not-italic text-[0.78rem] text-ink-muted">{p.id}.livecrib.pro</em>
         </div>
-        <img src={shots[active]} alt={`${p.name} screenshot`} className="block w-full" loading="lazy" />
+        <button
+          type="button"
+          onClick={() => setZoom(active)}
+          className="group relative block w-full cursor-zoom-in"
+          aria-label={`Enlarge ${p.name} screenshot`}
+        >
+          <img src={shots[active]} alt={`${p.name} screenshot`} className="block w-full" loading="lazy" />
+          <span className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all group-hover:bg-black/25 group-hover:opacity-100">
+            <span className="rounded-full bg-white/90 px-4 py-2 text-sm font-bold text-ink shadow-card">🔍 Click to enlarge</span>
+          </span>
+        </button>
       </div>
 
-      {/* Thumbnails */}
+      {/* Thumbnails — select + click active to enlarge */}
       {shots.length > 1 && (
         <div className="mt-4 grid grid-cols-3 gap-3">
           {shots.map((s, i) => (
             <button
               key={s}
-              onClick={() => setActive(i)}
-              className={`overflow-hidden rounded-lg border-2 transition-all ${
-                i === active ? 'shadow-card' : 'border-line opacity-70 hover:opacity-100'
+              onClick={() => (i === active ? setZoom(i) : setActive(i))}
+              className={`overflow-hidden rounded-lg border-2 transition-all hover:opacity-100 ${
+                i === active ? 'shadow-card' : 'border-line opacity-70'
               }`}
               style={i === active ? { borderColor: p.color } : undefined}
               aria-label={`View screenshot ${i + 1}`}
@@ -89,6 +101,15 @@ function Screenshots({ product: p }) {
           ))}
         </div>
       )}
+
+      <Lightbox
+        images={shots}
+        index={zoom}
+        caption={p.name}
+        accent={p.color}
+        onClose={() => setZoom(null)}
+        onChange={(i) => { setZoom(i); setActive(i) }}
+      />
     </div>
   )
 }
