@@ -1,0 +1,116 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   LiveCrib Solutions — Tailwind v4 theme + component layer
+   ============================================================ */
+@theme {
+  /* Brand palette (drives color utilities) */
+  --color-brand-900: #0a0f1f;
+  --color-brand-800: #101833;
+  --color-brand-700: #1a2547;
+  --color-accent: #6c5ce7;
+  --color-accent-2: #00d2ff;
+  --color-accent-3: #ff7a59;
+
+  --color-ink: #12172b;
+  --color-ink-soft: #4a5068;
+  --color-ink-muted: #7b8199;
+  --color-line: #e6e9f2;
+  --color-surface: #ffffff;
+  --color-soft: #f6f7fb;
+  --color-sunken: #eef1f8;
+
+  /* Product accents */
+  --color-sms: #6c5ce7;
+  --color-rms: #00b894;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  --radius-card: 16px;
+  --radius-xl2: 24px;
+
+  --shadow-soft: 0 2px 8px rgba(16, 24, 51, 0.06);
+  --shadow-card: 0 12px 32px rgba(16, 24, 51, 0.1);
+  --shadow-hi: 0 30px 70px rgba(16, 24, 51, 0.18);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-surface text-ink font-sans antialiased;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 { line-height: 1.14; letter-spacing: -0.02em; font-weight: 800; }
+  * { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer components {
+  /* Scroll reveal (driven by Reveal.jsx toggling `.in`). Declared first in this
+     layer so component hover states defined below win the specificity tie, and
+     inline hover utilities (utilities layer) always win. Uses `transform` so it
+     never fights Tailwind's `translate`-property hover utilities. */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* Layout */
+  .shell { @apply mx-auto w-full max-w-[1180px] px-5 sm:px-6; }
+  .section { @apply py-16 md:py-24; }
+
+  /* Eyebrow / labels */
+  .eyebrow { @apply inline-block text-xs font-bold uppercase tracking-[0.14em] text-accent mb-3; }
+
+  /* Gradient text + backgrounds */
+  .text-grad {
+    background: linear-gradient(120deg, #6c5ce7 0%, #00d2ff 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .bg-accent-grad { background: linear-gradient(120deg, #6c5ce7 0%, #00d2ff 100%); }
+  .bg-hero { background: radial-gradient(120% 120% at 80% -10%, #1a2547 0%, #0a0f1f 55%); }
+  .bg-deep { background: radial-gradient(120% 140% at 20% 0%, #1a2547 0%, #0a0f1f 60%); }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[0.98rem] font-bold
+           border border-transparent transition-all duration-200 whitespace-nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { @apply text-white shadow-[0_10px_24px_rgba(108,92,231,0.35)] hover:-translate-y-0.5; background: linear-gradient(120deg, #6c5ce7, #00d2ff); }
+  .btn-dark { @apply bg-brand-900 text-white hover:-translate-y-0.5 hover:shadow-card; }
+  .btn-ghost { @apply text-white border-white/25 bg-white/10 hover:bg-white/20; }
+  .btn-outline { @apply text-ink border-line bg-transparent hover:border-accent hover:text-accent; }
+  .btn-light { @apply bg-white text-brand-900 hover:-translate-y-0.5 hover:shadow-hi; }
+  .btn-lg { @apply px-8 py-4 text-[1.05rem]; }
+
+  /* Cards */
+  .card {
+    @apply bg-surface border border-line rounded-card p-7 shadow-soft
+           transition-all duration-200 hover:-translate-y-1.5 hover:shadow-card hover:border-transparent;
+  }
+
+  /* Pills & badges */
+  .pill { @apply inline-flex items-center gap-1.5 rounded-full bg-sunken px-3 py-1 text-xs font-semibold text-ink-soft; }
+  .badge { @apply inline-block rounded-full px-3 py-1 text-xs font-bold; }
+  .badge-ok { @apply bg-[#e7f9ef] text-[#14a05a]; }
+  .badge-warn { @apply bg-[#fff4e0] text-[#c47f00]; }
+  .badge-bad { @apply bg-[#fdecec] text-[#d63031]; }
+
+  /* Form fields */
+  .field { @apply flex flex-col gap-1.5; }
+  .field > span { @apply text-sm font-semibold text-ink-soft; }
+  .field input, .field textarea {
+    @apply font-sans text-[0.98rem] px-4 py-3 rounded-[10px] border border-line bg-soft text-ink
+           transition-all duration-150 outline-none resize-y
+           focus:border-accent focus:bg-white focus:shadow-[0_0_0_4px_rgba(108,92,231,0.18)];
+  }
+
+  /* Icon badge */
+  .icon-badge {
+    @apply grid place-items-center w-[54px] h-[54px] rounded-[14px] text-2xl mb-4;
+    background: linear-gradient(135deg, rgba(108, 92, 231, 0.14), rgba(0, 210, 255, 0.14));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
