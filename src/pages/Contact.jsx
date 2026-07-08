@@ -2,12 +2,33 @@ import { useState } from 'react'
 import Reveal from '../components/Reveal.jsx'
 import { brand } from '../data/site.js'
 
+const EMPTY = { name: '', email: '', subject: '', message: '' }
+
 export default function Contact() {
-  const [sent, setSent] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [form, setForm] = useState(EMPTY)
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [error, setError] = useState('')
 
   const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
-  const submit = (e) => { e.preventDefault(); setSent(true) }
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setStatus('sending')
+    setError('')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.')
+      setStatus('sent')
+    } catch (err) {
+      setStatus('error')
+      setError(err.message || 'Unable to send your message right now.')
+    }
+  }
 
   const details = [
     { ic: '✉️', label: 'Email', value: brand.email, href: `mailto:${brand.email}` },
@@ -16,9 +37,11 @@ export default function Contact() {
     { ic: '🕘', label: 'Hours', value: brand.hours },
   ]
 
+  const sending = status === 'sending'
+
   return (
     <>
-      <section className="border-b border-line bg-linear-to-b from-soft to-white pb-8 pt-20 md:pb-14">
+      <section className="border-b border-line bg-linear-to-b from-soft to-canvas pb-8 pt-20 md:pb-14">
         <div className="shell">
           <span className="eyebrow">Contact us</span>
           <h1 className="text-4xl md:text-5xl">Let's start a conversation</h1>
@@ -49,15 +72,17 @@ export default function Contact() {
           </Reveal>
 
           {/* Form */}
-          <Reveal delay={120} className="rounded-xl2 border border-line bg-white p-9 shadow-soft">
-            {sent ? (
+          <Reveal delay={120} className="rounded-xl2 border border-line bg-surface p-9 shadow-soft">
+            {status === 'sent' ? (
               <div className="py-8 text-center">
                 <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-full bg-[#e7f9ef] text-3xl text-[#14a05a]">✓</div>
                 <h3 className="text-2xl">Thanks, {form.name || 'there'}!</h3>
-                <p className="text-ink-muted">Your message has been received. We'll be in touch at {form.email || 'your email'} shortly.</p>
+                <p className="text-ink-muted">
+                  Your message is on its way to our team. We'll reply to {form.email || 'your email'} shortly.
+                </p>
                 <button
                   className="btn btn-outline mt-2"
-                  onClick={() => { setSent(false); setForm({ name: '', email: '', subject: '', message: '' }) }}
+                  onClick={() => { setStatus('idle'); setForm(EMPTY) }}
                 >
                   Send another
                 </button>
@@ -67,23 +92,32 @@ export default function Contact() {
                 <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2">
                   <label className="field">
                     <span>Name</span>
-                    <input required value={form.name} onChange={update('name')} placeholder="Jane Doe" />
+                    <input required value={form.name} onChange={update('name')} placeholder="Jane Doe" disabled={sending} />
                   </label>
                   <label className="field">
                     <span>Email</span>
-                    <input required type="email" value={form.email} onChange={update('email')} placeholder="jane@company.com" />
+                    <input required type="email" value={form.email} onChange={update('email')} placeholder="jane@company.com" disabled={sending} />
                   </label>
                 </div>
                 <label className="field">
                   <span>Subject</span>
-                  <input value={form.subject} onChange={update('subject')} placeholder="What can we help with?" />
+                  <input value={form.subject} onChange={update('subject')} placeholder="What can we help with?" disabled={sending} />
                 </label>
                 <label className="field">
                   <span>Message</span>
-                  <textarea required rows={5} value={form.message} onChange={update('message')} placeholder="Tell us about your project…" />
+                  <textarea required rows={5} value={form.message} onChange={update('message')} placeholder="Tell us about your project…" disabled={sending} />
                 </label>
-                <button type="submit" className="btn btn-primary btn-lg">Send message →</button>
-                <p className="m-0 text-[0.82rem] text-ink-muted">This is a demo form — submissions are handled client-side only.</p>
+
+                {status === 'error' && (
+                  <p className="m-0 rounded-[10px] bg-[#fdecec] px-3 py-2.5 text-[0.88rem] text-[#d63031]">{error}</p>
+                )}
+
+                <button type="submit" className="btn btn-primary btn-lg disabled:cursor-wait disabled:opacity-70" disabled={sending}>
+                  {sending ? 'Sending…' : 'Send message →'}
+                </button>
+                <p className="m-0 text-[0.82rem] text-ink-muted">
+                  Your message is delivered straight to {brand.email} via Postmark.
+                </p>
               </form>
             )}
           </Reveal>

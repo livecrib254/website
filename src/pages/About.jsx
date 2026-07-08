@@ -6,7 +6,7 @@ import { values, team, stats, img } from '../data/site.js'
 export default function About() {
   return (
     <>
-      <section className="border-b border-line bg-linear-to-b from-soft to-white pb-8 pt-20 md:pb-14">
+      <section className="border-b border-line bg-linear-to-b from-soft to-canvas pb-8 pt-20 md:pb-14">
         <div className="shell">
           <span className="eyebrow">About us</span>
           <h1 className="max-w-[18ch] text-4xl md:text-5xl">We blend creativity with technology to grow your brand</h1>
@@ -81,7 +81,7 @@ export default function About() {
               <Reveal
                 key={m.name}
                 delay={i * 70}
-                className="rounded-xl2 border border-line bg-white p-8 text-center transition-all duration-200 hover:-translate-y-1 hover:shadow-card"
+                className="rounded-xl2 border border-line bg-surface p-8 text-center transition-all duration-200 hover:-translate-y-1 hover:shadow-card"
               >
                 {m.image ? (
                   <img

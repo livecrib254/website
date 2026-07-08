@@ -32,7 +32,7 @@ export default function LoginScreen({
   }
 
   return (
-    <div className="grid min-h-screen md:grid-cols-2">
+    <div data-theme="light" className="grid min-h-screen md:grid-cols-2">
       {/* Brand panel */}
       <aside
         className="relative flex flex-col justify-between overflow-hidden p-8 text-white sm:p-10"

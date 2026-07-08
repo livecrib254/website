@@ -6,7 +6,7 @@ export default function AppShell({ appName, appIcon, accent, nav, user, onLogout
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-sunken lg:grid lg:grid-cols-[248px_1fr]">
+    <div data-theme="light" className="min-h-screen bg-sunken lg:grid lg:grid-cols-[248px_1fr]">
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-[60] flex w-[260px] flex-col bg-brand-900 p-4 text-[#cfd5e8] transition-transform lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:w-auto lg:translate-x-0 ${

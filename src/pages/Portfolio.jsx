@@ -12,7 +12,7 @@ export default function Portfolio() {
 
   return (
     <>
-      <section className="border-b border-line bg-linear-to-b from-soft to-white pb-8 pt-20 md:pb-14">
+      <section className="border-b border-line bg-linear-to-b from-soft to-canvas pb-8 pt-20 md:pb-14">
         <div className="shell">
           <span className="eyebrow">Portfolio</span>
           <h1 className="text-4xl md:text-5xl">Selected work & case studies</h1>
@@ -33,8 +33,8 @@ export default function Portfolio() {
                 onClick={() => setFilter(c)}
                 className={`rounded-full border px-[18px] py-2.5 text-[0.92rem] font-semibold transition-colors ${
                   filter === c
-                    ? 'border-brand-900 bg-brand-900 text-white'
-                    : 'border-line bg-white text-ink-soft hover:border-accent hover:text-accent'
+                    ? 'border-accent bg-accent text-white'
+                    : 'border-line bg-surface text-ink-soft hover:border-accent hover:text-accent'
                 }`}
               >
                 {c}
@@ -47,7 +47,7 @@ export default function Portfolio() {
               <Reveal
                 key={p.title}
                 delay={i * 60}
-                className="group overflow-hidden rounded-xl2 border border-line bg-white transition-all duration-200 hover:-translate-y-1.5 hover:shadow-card"
+                className="group overflow-hidden rounded-xl2 border border-line bg-surface transition-all duration-200 hover:-translate-y-1.5 hover:shadow-card"
               >
                 <div className="relative h-44 overflow-hidden">
                   <img

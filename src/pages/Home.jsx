@@ -128,7 +128,7 @@ export default function Home() {
               <Reveal
                 key={p.id}
                 delay={i * 100}
-                className="flex flex-col overflow-hidden rounded-xl2 border border-line bg-white shadow-soft transition-all duration-200 hover:-translate-y-1.5 hover:shadow-hi"
+                className="flex flex-col overflow-hidden rounded-xl2 border border-line bg-surface shadow-soft transition-all duration-200 hover:-translate-y-1.5 hover:shadow-hi"
               >
                 {/* Screenshot preview */}
                 <div className="relative overflow-hidden border-b border-line" style={{ background: p.color }}>
@@ -175,7 +175,7 @@ export default function Home() {
               <Reveal
                 key={s.title}
                 delay={i * 70}
-                className="rounded-card border border-line bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-card"
+                className="rounded-card border border-line bg-surface p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-card"
               >
                 <div className="mb-3.5 grid h-11 w-11 place-items-center rounded-xl bg-sunken text-xl">{s.icon}</div>
                 <h3 className="mb-1 text-lg">{s.title}</h3>
@@ -192,7 +192,7 @@ export default function Home() {
           <SectionHead eyebrow="How we work" title="A simple, transparent process" />
           <div className="grid gap-6 md:grid-cols-3">
             {process.map((p, i) => (
-              <Reveal key={p.step} delay={i * 90} className="rounded-card border border-line bg-white p-8">
+              <Reveal key={p.step} delay={i * 90} className="rounded-card border border-line bg-surface p-8">
                 <span className="mb-3 block text-4xl font-extrabold text-grad">{p.step}</span>
                 <h3 className="mb-2 text-xl">{p.title}</h3>
                 <p className="m-0 text-ink-muted">{p.text}</p>
@@ -206,7 +206,7 @@ export default function Home() {
       <section className="section bg-soft">
         <div className="shell grid gap-6 md:grid-cols-2">
           {testimonials.map((t, i) => (
-            <Reveal key={i} delay={i * 100} className="rounded-xl2 border border-line bg-white p-9">
+            <Reveal key={i} delay={i * 100} className="rounded-xl2 border border-line bg-surface p-9">
               <p className="m-0 font-serif text-5xl leading-[0.5] text-accent">“</p>
               <p className="mt-4 text-lg font-medium text-ink">{t.quote}</p>
               <p className="m-0 text-[0.95rem] text-ink-muted"><strong>{t.name}</strong> · {t.org}</p>
@@ -240,7 +240,7 @@ function SectionHead({ eyebrow, title, sub }) {
 
 function FeatureStat({ value, label }) {
   return (
-    <div className="rounded-card border border-line bg-white p-5">
+    <div className="rounded-card border border-line bg-surface p-5">
       <strong className="block text-3xl font-extrabold text-grad">{value}</strong>
       <span className="text-sm text-ink-muted">{label}</span>
     </div>

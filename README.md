@@ -14,9 +14,14 @@ credential row to autofill, then sign in.
 - [Vite](https://vitejs.dev/) 5 + [React](https://react.dev/) 18
 - [Tailwind CSS](https://tailwindcss.com/) v4 (via `@tailwindcss/vite`) — design tokens defined in
   `@theme`, a small component layer (`btn`, `card`, `field`, …) built with `@apply`, utilities in markup
+- **Light & dark mode** — a navbar toggle (`ThemeToggle`) sets `data-theme` on `<html>`, persisted to
+  `localStorage` and initialised (with system-preference fallback) before paint to avoid a flash. Dark mode
+  is a set of token overrides in `index.css`, so the whole marketing site adapts automatically; the product
+  demos are pinned to light to mirror the real apps.
 - [React Router](https://reactrouter.com/) 6 for client-side routing
 - Real imagery pulled from the original LiveCrib site, stored in `public/images/`
-- Zero backend: the login and contact forms are handled client-side for demo purposes
+- **Contact form → email via [Postmark](https://postmarkapp.com/)** through a small serverless
+  endpoint (`api/contact.js`); the login demos remain client-side.
 
 ## Getting started
 
@@ -29,6 +34,38 @@ npm run preview  # preview the production build
 
 > Note: this project was scaffolded in an environment where Node couldn't execute, so it has not
 > been run here. Run `npm install && npm run dev` locally — it's a standard Vite app.
+
+## Contact form email (Postmark)
+
+The contact form POSTs to `/api/contact`, which sends the message to `info@livecrib.pro` using
+Postmark's **outbound** transactional Email API. (Postmark *inbound* is for receiving/parsing mail
+and isn't used to send a form — the send path is the outbound API, which needs a secret Server Token,
+so it runs server-side, never in the browser.)
+
+**Setup**
+
+1. In Postmark, create a **Server** and copy its **Server API Token** (Server → API Tokens).
+2. Verify the sender: add `info@livecrib.pro` as a **Sender Signature**, or verify the whole
+   `livecrib.pro` **Domain** (DKIM + Return-Path). The `From` address must be verified or Postmark
+   rejects the send.
+3. Copy `.env.example` to `.env` and fill in the values:
+
+   ```bash
+   cp .env.example .env
+   # POSTMARK_SERVER_TOKEN=...           (required)
+   # CONTACT_TO_EMAIL=info@livecrib.pro
+   # CONTACT_FROM_EMAIL=info@livecrib.pro   (must be verified in Postmark)
+   ```
+
+4. **Local dev:** `npm run dev` — a Vite middleware (`vite.config.js`) serves `/api/contact` using the
+   values in `.env`, so you can test real sends locally.
+5. **Production (Vercel):** `/api/contact.js` is picked up automatically as a serverless function. Add
+   the same env vars in **Project → Settings → Environment Variables** and deploy.
+
+Visitor emails are set as the message **Reply-To**, so replying in your inbox goes straight back to them.
+The shared send logic lives in `server/contactCore.js` (used by both the serverless function and the
+dev middleware). On other hosts (Netlify/Cloudflare), wrap `sendContactEmail()` in that host's function
+format.
 
 ## Routes
 

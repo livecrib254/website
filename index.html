@@ -15,6 +15,20 @@
       content="LiveCrib Solutions — Empowering Ideas. Engineering Digital Growth. Custom software, web design, and digital marketing under one roof."
     />
     <title>LiveCrib Solutions — Empowering Ideas. Engineering Digital Growth.</title>
+    <script>
+      // Set theme before paint to avoid a flash of the wrong theme.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (t !== 'dark' && t !== 'light') {
+            t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

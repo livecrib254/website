@@ -8,7 +8,7 @@ import { products } from '../data/site.js'
 export default function Products() {
   return (
     <>
-      <section className="border-b border-line bg-linear-to-b from-soft to-white pb-8 pt-20 md:pb-14">
+      <section className="border-b border-line bg-linear-to-b from-soft to-canvas pb-8 pt-20 md:pb-14">
         <div className="shell">
           <span className="eyebrow">Our products</span>
           <h1 className="text-4xl md:text-5xl">Software we've built — try it live</h1>
@@ -63,7 +63,7 @@ function Screenshots({ product: p }) {
   return (
     <div>
       {/* Browser frame — click to enlarge */}
-      <div className="overflow-hidden rounded-xl2 border border-line bg-white shadow-hi">
+      <div className="overflow-hidden rounded-xl2 border border-line bg-surface shadow-hi">
         <div className="flex items-center gap-1.5 border-b border-line bg-sunken px-4 py-3">
           <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
