@@ -57,10 +57,25 @@ so it runs server-side, never in the browser.)
    # CONTACT_FROM_EMAIL=info@livecrib.pro   (must be verified in Postmark)
    ```
 
-4. **Local dev:** `npm run dev` — a Vite middleware (`vite.config.js`) serves `/api/contact` using the
-   values in `.env`, so you can test real sends locally.
+4. **Local dev / preview:** both `npm run dev` and `npm run build && npm run preview` serve
+   `/api/contact` via a Vite middleware (`vite.config.js`) using the values in `.env`, so you can test
+   real sends locally against either the dev or the production build.
 5. **Production (Vercel):** `/api/contact.js` is picked up automatically as a serverless function. Add
    the same env vars in **Project → Settings → Environment Variables** and deploy.
+
+### `npm run build` gives a 405 on the contact form?
+
+Expected on a **plain static server**. `npm run build` only emits static files in `dist/`; the
+`/api/contact` endpoint needs a runtime. Options:
+
+- `npm run preview` — the Vite preview server now serves the endpoint (reads `.env`). ✅
+- Deploy to **Vercel** — `api/contact.js` runs as a serverless function (set env vars in the dashboard). ✅
+- Hosting `dist/` on a static-only host (GitHub Pages, S3, plain Nginx) has **no server**, so `POST`
+  returns 405. Either deploy the API somewhere (Vercel/Netlify/Cloudflare/Node) or run it behind a
+  Node server that also serves `dist/`.
+
+`.env` is **not** needed to build and is intentionally never bundled into the client — it's read at
+runtime by the server (Vite dev/preview locally, Vercel env vars in production).
 
 Visitor emails are set as the message **Reply-To**, so replying in your inbox goes straight back to them.
 The shared send logic lives in `server/contactCore.js` (used by both the serverless function and the
