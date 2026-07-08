@@ -69,10 +69,11 @@ Expected on a **plain static server**. `npm run build` only emits static files i
 `/api/contact` endpoint needs a runtime. Options:
 
 - `npm run preview` — the Vite preview server now serves the endpoint (reads `.env`). ✅
+- **VPS** — run `npm run build` then `npm start` (the Node server in `server/prod.js` serves `dist/`
+  **and** `/api/contact`), behind Nginx. Full walkthrough in **[DEPLOY.md](./DEPLOY.md)**. ✅
 - Deploy to **Vercel** — `api/contact.js` runs as a serverless function (set env vars in the dashboard). ✅
-- Hosting `dist/` on a static-only host (GitHub Pages, S3, plain Nginx) has **no server**, so `POST`
-  returns 405. Either deploy the API somewhere (Vercel/Netlify/Cloudflare/Node) or run it behind a
-  Node server that also serves `dist/`.
+- Hosting `dist/` on a static-only host (GitHub Pages, S3, plain Nginx with no Node) has **no server**,
+  so `POST` returns 405 — you must run the API process somewhere.
 
 `.env` is **not** needed to build and is intentionally never bundled into the client — it's read at
 runtime by the server (Vite dev/preview locally, Vercel env vars in production).
