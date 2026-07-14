@@ -145,6 +145,46 @@ export const products = [
   },
 ]
 
+// Published Odoo apps — sold on the Odoo App Store (odoo.com/apps)
+export const odooModules = [
+  {
+    id: 'pos-mpesa',
+    name: 'POS M-Pesa Payments',
+    kicker: 'Point of Sale',
+    icon: '📲',
+    color: '#00b894',
+    tagline: 'STK Push & “Paid to Till” for Odoo 19 Point of Sale.',
+    text: 'Accept M-Pesa mobile payments right at the POS terminal, with instant confirmation and a full audit trail across three payment gateways.',
+    features: [
+      'STK Push + Paid-to-Till (C2B)',
+      'Daraja, Paystack & Flutterwave',
+      'Webhook + polling confirmation',
+      'Full transaction audit trail',
+    ],
+    version: 'Odoo 19.0',
+    price: '$99',
+    store: 'https://apps.odoo.com/apps/modules/19.0/odoo_mpesa_module',
+  },
+  {
+    id: 'pos-printer',
+    name: 'POS Proxy Printing',
+    kicker: 'Point of Sale',
+    icon: '🖨️',
+    color: '#6c5ce7',
+    tagline: 'Print to unsupported & third-party printers via a local proxy.',
+    text: 'Route Odoo POS print jobs to affordable thermal and network printers over ESC/POS — no IoT Box or ePOS hardware required.',
+    features: [
+      'Raw ESC/POS over TCP + OS queues',
+      'Route orders by product category',
+      'Incremental, duplicate-free tickets',
+      'Kitchen vs. receipt separation',
+    ],
+    version: 'Odoo 19.0',
+    price: '$250',
+    store: 'https://apps.odoo.com/apps/modules/19.0/pos_printer_module',
+  },
+]
+
 export const portfolio = [
   {
     title: 'School Management Platform',

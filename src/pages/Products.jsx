@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import Reveal from '../components/Reveal.jsx'
 import Lightbox from '../components/Lightbox.jsx'
 import { CtaBand } from './Home.jsx'
-import { products } from '../data/site.js'
+import { products, odooModules } from '../data/site.js'
 
 export default function Products() {
   return (
@@ -44,6 +44,51 @@ export default function Products() {
           </div>
         </section>
       ))}
+
+      {/* Odoo App Store modules */}
+      <section className={`section ${products.length % 2 ? 'bg-soft' : ''}`}>
+        <div className="shell">
+          <Reveal className="max-w-[640px]">
+            <span className="eyebrow">On the Odoo App Store</span>
+            <h2 className="text-3xl md:text-4xl">Odoo apps we publish</h2>
+            <p className="mt-4 text-lg text-ink-soft">
+              Production-ready modules we built and maintain, available to buy and install directly from
+              the official Odoo App Store.
+            </p>
+          </Reveal>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            {odooModules.map((m, i) => (
+              <Reveal key={m.id} delay={i * 100}>
+                <article className="card flex h-full flex-col">
+                  <div className="flex items-start justify-between gap-4">
+                    <span className="icon-badge mb-0" style={{ background: `${m.color}1a` }}>{m.icon}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="pill">{m.version}</span>
+                      <span className="badge badge-ok">{m.price}</span>
+                    </div>
+                  </div>
+                  <span className="mt-4 pill w-fit" style={{ background: `${m.color}1a`, color: m.color }}>{m.kicker}</span>
+                  <h3 className="mt-3 text-2xl">{m.name}</h3>
+                  <p className="mt-1 text-ink-soft">{m.tagline}</p>
+                  <p className="mt-2 text-[0.95rem] text-ink-muted">{m.text}</p>
+                  <ul className="my-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    {m.features.map((f) => <li key={f} className="text-[0.9rem] text-ink-soft">✓ {f}</li>)}
+                  </ul>
+                  <a
+                    href={m.store}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-outline mt-auto w-fit"
+                  >
+                    View on Odoo Store →
+                  </a>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <CtaBand
         title="Need a custom platform like these?"
