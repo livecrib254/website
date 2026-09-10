@@ -10,7 +10,7 @@ import {
 import { getDb } from './db.js'
 import { embedTexts } from './rag.js'
 
-const DEFAULT_SITE_URL = 'https://livecrib.pro'
+const DEFAULT_SITE_URL = 'https://www.livecrib.pro'
 const PAGE_PATHS = ['/', '/about', '/products', '/portfolio', '/contact']
 
 function generateHash(text) {
@@ -48,7 +48,7 @@ function localDocuments() {
       `Phone: ${brand.phone}`,
       `Address: ${brand.address}`,
       `Hours: ${brand.hours}`,
-      'Website: https://livecrib.pro',
+      'Website: https://www.livecrib.pro',
     ].join('\n'),
   })
   docs.push({
